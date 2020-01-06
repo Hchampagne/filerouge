@@ -1,0 +1,76 @@
+Sub Create_Tables()
+
+DoCmd.RunSQL "CREATE TABLE produits(" & _
+   "pro_id INT," & _
+   "pro_nom VARCHAR(50) NOT NULL UNIQUE," & _
+   "pro_description VARCHAR(255) NOT NULL," & _
+   "pro_stock INT NOT NULL," & _
+   "pro_prix DECIMAL(6,2)," & _
+   "pro_dat_ajout DATETIME NOT NULL," & _
+   "pro_dat_modif DATETIME," & _
+   "pro_etat VARCHAR(5)," & _
+   "pro_photo VARCHAR(5) NOT NULL," & _
+   "PRIMARY KEY(pro_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE categories(" & _
+   "cat_id INT," & _
+   "cat_nom VARCHAR(50) NOT NULL," & _
+   "PRIMARY KEY(cat_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE sous_categories(" & _
+   "scat_id INT," & _
+   "scat_nom VARCHAR(50) NOT NULL," & _
+   "PRIMARY KEY(scat_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE fournisseurs(" & _
+   "fou_id INT," & _
+   "fou_nom VARCHAR(50) NOT NULL," & _
+   "fou_conatct VARCHAR(50) NOT NULL," & _
+   "fou_etat VARCHAR(5) NOT NULL," & _
+   "fou_tel VARCHAR(12) NOT NULL," & _
+   "fou_mail VARCHAR(50) NOT NULL," & _
+   "fou_adresse VARCHAR(255) NOT NULL," & _
+   "PRIMARY KEY(fou_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE clients(" & _
+   "cli_id INT," & _
+   "cli_nom VARCHAR(50) NOT NULL," & _
+   "cli_prenom VARCHAR(50) NOT NULL," & _
+   "cli_mail VARCHAR(50) NOT NULL UNIQUE," & _
+   "cli_adresse VARCHAR(255) NOT NULL," & _
+   "cli_livraison VARCHAR(255) NOT NULL," & _
+   "cli_login VARCHAR(50)," & _
+   "cli_mdp VARCHAR(60) NOT NULL," & _
+   "cli_qual VARCHAR(5) NOT NULL," & _
+   "PRIMARY KEY(cli_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE Asso_1(" & _
+   "pro_id INT," & _
+   "cat_id INT," & _
+   "PRIMARY KEY(pro_id, cat_id)," & _
+   "FOREIGN KEY(pro_id) REFERENCES produits(pro_id)," & _
+   "FOREIGN KEY(cat_id) REFERENCES categories(cat_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE Asso_2(" & _
+   "cat_id INT," & _
+   "scat_id INT," & _
+   "PRIMARY KEY(cat_id, scat_id)," & _
+   "FOREIGN KEY(cat_id) REFERENCES categories(cat_id)," & _
+   "FOREIGN KEY(scat_id) REFERENCES sous_categories(scat_id)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE Asso_3(" & _
+   "pro_id INT," & _
+   "fou_id INT," & _
+   "PRIMARY KEY(pro_id, fou_id)," & _
+   "FOREIGN KEY(pro_id) REFERENCES produits(pro_id)," & _
+   "FOREIGN KEY(fou_id) REFERENCES fournisseurs(fou_id)" & _
+");"   
+
+End Sub
